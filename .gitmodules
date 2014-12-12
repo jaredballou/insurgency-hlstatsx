@@ -1,0 +1,6 @@
+[submodule "heatmaps/src/materials"]
+	path = heatmaps/src/materials
+	url = git@github.com:jaredballou/insurgency-materials.git
+[submodule "heatmaps/src/resource"]
+	path = heatmaps/src/resource
+	url = git@github.com:jaredballou/insurgency-resource.git

@@ -5,7 +5,7 @@ mysql_connect(DB_HOST,DB_USER,DB_PASS);
 mysql_select_db(DB_NAME);
 
 //Source for weapon images
-$srcpath = '/home/insserver/serverfiles/insurgency/materials/vgui/inventory';
+$srcpath = 'src/materials/vgui/inventory';
 //Destination for processed results
 $dstpath = '../web/hlstatsimg/games/insurgency';
 //TODO: Merge this all together
