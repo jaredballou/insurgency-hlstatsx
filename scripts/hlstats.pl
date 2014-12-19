@@ -896,7 +896,7 @@ sub getServerMod
 	} elsif ($gamename =~ /^Day of Defeat/i) {
 		$playgame = "dods";
 	} elsif ($gamename =~ /^Insurgency/i) {
-		$playgame = "insmod";
+		$playgame = "insurgency";
 	} elsif ($gamename =~ /^Neotokyo/i) {
 		$playgame = "nts";
 	} elsif ($gamename =~ /^Fortress Forever/i) {
@@ -939,6 +939,8 @@ sub getServerMod
 		$playgame = "tfc";
 	} elsif ($gamedir =~ /^tf/i) {
 		$playgame = "tf";
+	} elsif ($gamedir =~ /^insurgency/i) {
+		$playgame = "insurgency";
 	} elsif ($gamedir =~ /^ins/i) {
 		$playgame = "insmod";
 	} elsif ($gamedir =~ /^neotokyo/i) {
