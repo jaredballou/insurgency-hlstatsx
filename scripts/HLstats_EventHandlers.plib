@@ -109,6 +109,7 @@ sub get_fav_weapon  {
 		($s_fav_weapon_sm_acc) = $result->fetchrow_array;
 		$result->finish;
 	}
+
    
 	return ($g_games{$g_servers{$s_addr}->{game}}{weapons}{$fav_weapon}{name}, $fav_weapon_kills, $fav_weapon_sm_acc, $g_games{$g_servers{$s_addr}->{game}}{weapons}{$s_fav_weapon}{name}, $s_fav_weapon_kills, $s_fav_weapon_sm_acc);
 }
