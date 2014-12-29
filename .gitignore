@@ -2,3 +2,4 @@ scripts/logs/hlstats*
 heatmaps/cache/*
 /web/hlstatsimg/games/*/heatmaps/
 scripts/*.pid
+web/hlstatsimg/progress/*
