@@ -217,7 +217,7 @@ class Heatmap {
 		$num_kills = DB::numRows($result);
 
 		if (!$num_kills) {
-			show::Event("IGNORE", "Game: $code, Map: $map, Kills: $num_kills, (to few kills)", 1);
+			show::Event("IGNORE", "Game: $code, Map: $map, Kills: $num_kills, (No kills in period)", 1);
 			return false;
 		}
 
@@ -282,17 +282,9 @@ class Heatmap {
 			$x = abs(((($mapinfo[$code][$map]['xoffset']*$xm) - $pos_x) / $mapinfo[$code][$map]['scale'])-1);
 			$y = abs(((($mapinfo[$code][$map]['yoffset']*$ym) - $pos_y) / $mapinfo[$code][$map]['scale'])-1);
 			if (($x < 0) || ($x > 1024) || ($y < 0) || ($y > 1024)) {
-echo "got one\n";
-var_dump($row['pos_victim_x']);
-var_dump($row['pos_victim_y']);
-var_dump($mapinfo[$code][$map]['xoffset']);
-var_dump($mapinfo[$code][$map]['yoffset']);
-var_dump($mapinfo[$code][$map]['flipx']);
-var_dump($mapinfo[$code][$map]['flipy']);
-var_dump($mapinfo[$code][$map]['scale']);
-
-echo "done\n";
-//var_dump($row);
+				echo "Got a coordinate outside bounds\n";
+				echo "pos_victim: {$row['pos_victim_x']},{$row['pos_victim_y']} offset: {$mapinfo[$code][$map]['xoffset']},{$mapinfo[$code][$map]['yoffset']} flip: {$mapinfo[$code][$map]['flipx']},{$mapinfo[$code][$map]['flipy']} scale: {$mapinfo[$code][$map]['scale']}\n";
+				continue;
 			}
 			$rgb = imagecolorat($overlay, $x, $y);
 			$colors = imagecolorsforindex($overlay, $rgb);
@@ -427,7 +419,6 @@ echo "done\n";
 
 		Env::set('map_query', $map_query);
 		show::Event("SQL", $map_query, 3);
-
 	}
 
 	private static function drawHud ($img, $map, $heatmapname, $method, $num_kills, $firstdata) {

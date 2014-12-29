@@ -3097,5 +3097,22 @@ sub doEvent_Kill_Loc
 
 	return sprintf("KILL LOCATION x=>%s, y=>%s, z=>%s stored for next kill", $g_servers{$s_addr}->{nextkillx}, $g_servers{$s_addr}->{nextkilly}, $g_servers{$s_addr}->{nextkillz});
 }
+sub doEvent_Round
+{
+	my ($type, %properties) = @_;
+	&recordEvent(
+		"Rounds", 0,
+		$type,
+		$properties{priority},
+		$properties{timelimit},
+		$properties{lives},
+		$properties{gametype},
+		$properties{reason},
+		$properties{winner},
+		$properties{message},
+		$properties{message_string}
+	);
+	return "ROUND ACTION: \"$type\" \"$properties{message}\"";
+}
 
 1;

@@ -3267,6 +3267,11 @@ while ($loop = &getLine()) {
 					$ev_status = &doEvent_Kill_Loc(
 						%ev_properties
 					);
+				} elsif (($ev_obj_a eq "Round_Begin") || ($ev_obj_a eq "Round_Start") || ($ev_obj_a eq "Round_End") || ($ev_obj_a eq "Game_NewMap") || ($ev_obj_a eq "Game_Start") || ($ev_obj_a eq "Game_End")) {
+					$ev_status = &doEvent_Round(
+						$ev_obj_a,
+						%ev_properties
+					);
 				} else {
 					$ev_status = &doEvent_WorldAction(
 						$ev_obj_a

@@ -54,5 +54,5 @@ use constant {
 	'valve'    => VALVE(),
 	'nucleardawn' => NUCLEARDAWN(),
 	'dinodday' => DDD(),
-	'insurgency' => INSMOD()
+	'insurgency' => INSURGENCY()
 );
