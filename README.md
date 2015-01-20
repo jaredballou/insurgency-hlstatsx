@@ -1,0 +1,6 @@
+# HLStatsX Customized For Insurgency
+Complete build of HLStatsX that includes Insurgency specific images, icons, map data, and a heatmap generator. It integrates tightly with the [Insurgency Logger and HLStatsX Sourcemod plugins](https://github.com/jaredballou/insurgency-sourcemod).
+* [Complete data dump to add Insurgency as a game](http://ins.jballou.com/create-hlstatsdump.php): This
+* [Map Data Dump](http://ins.jballou.com/maps.php?command=hlstats): Tool that reads all overview data from my Insurgency Data repository and exports needed data for Heatmap support
+* [Weapons Dump](http://ins.jballou.com/stats.php?command=hlstats): Tool that reads theaters and langage files (currently only supports Latin alphabet) to create data dump of all weapons, teams, and roles. Also creates the desired ribbons for weapons.
+* [Add table for Round support](sql/rounds.sql): One of the future goals of this project is to create "per match" visualizations of killers and victims, step throughs of captures, or any other use of the data framed by rounds instead of collected globally. This table is needed to track round activities, eventually I want to be able to have round unique identifiers assigned and the events modify the single round record rather than needing to get a bunch of events and parse them, but this is release 1.

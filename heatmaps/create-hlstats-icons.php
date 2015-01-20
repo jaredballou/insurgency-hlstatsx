@@ -10,6 +10,13 @@ $srcpath = 'src/insurgency-data/materials/vgui/inventory';
 $dstpath = '../web/hlstatsimg/games/insurgency';
 //TODO: Merge this all together
 //Array of directories and the size of the icon
+
+/*
+$p = new PharData("${dstpath}/images.tar");
+$p->buildFromDirectory($dstpath,'/^[^im]/');
+$p2 = $p->compress(Phar::BZ2);
+exit;
+*/
 $directories = array(
 	'dawards' => array(
 		'res' => '112x64',
