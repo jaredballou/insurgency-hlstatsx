@@ -1,54 +1,6 @@
-===========================================================
-HLstatsX Community Edition
-http://www.hlxce.com
-===========================================================
-
-HLstatsX Community Edition is an open-source project licensed
-under GNU General Public License v2 and is a real-time stats
-and ranking for Source engine based games. HLstatsX Community
-Edition uses a Perl daemon to parse the log streamed from the
-game server. The data is stored in a MySQL Database and has
-a PHP frontend.
-
-
-For installation help, please visit our web site:
-
-	http://www.hlxce.com
-	http://wiki.hlxce.com
-	
-or our forums:
-
-	http://forums.hlxce.com
-	
-or join us on IRC:
-
-	irc.gamesurge.net, channel #HLXCE
-	
-
-To be notified of upcoming releases, you can join our
-FreeLists group:
-
-	http://www.freelists.org/list/hlxce
-	
-	
-We are also always looking for Beta-Testers.  Join our
-Google Group at:
-
-	http://groups.google.com/group/hlxce-beta-testers
-	
-
-NOTE:
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+# HLStatsX Customized For Insurgency
+Complete build of HLStatsX that includes Insurgency specific images, icons, map data, and a heatmap generator. It integrates tightly with the [Insurgency Logger and HLStatsX Sourcemod plugins](https://github.com/jaredballou/insurgency-sourcemod).
+* [Complete data dump to add Insurgency as a game](http://ins.jballou.com/create-hlstatsdump.php): This
+* [Map Data Dump](http://ins.jballou.com/maps.php?command=hlstats): Tool that reads all overview data from my Insurgency Data repository and exports needed data for Heatmap support
+* [Weapons Dump](http://ins.jballou.com/stats.php?command=hlstats): Tool that reads theaters and langage files (currently only supports Latin alphabet) to create data dump of all weapons, teams, and roles. Also creates the desired ribbons for weapons.
+* [Add table for Round support](sql/rounds.sql): One of the future goals of this project is to create "per match" visualizations of killers and victims, step throughs of captures, or any other use of the data framed by rounds instead of collected globally. This table is needed to track round activities, eventually I want to be able to have round unique identifiers assigned and the events modify the single round record rather than needing to get a bunch of events and parse them, but this is release 1.
