@@ -107,6 +107,11 @@ foreach ($maps as $mapname => $mapimg) {
 	doexec("convert {$mapimg} {$resize} {$dstpath}/maps/{$mapname}.png");
 }
 
+foreach ($directories as $dir => $data) {
+	$path = "{$dstpath}/{$dir}";
+	echo "Adding new files to {$dir}\n";
+	doexec("git add {$path}/*");
+}
 //Create archive of images
 $dirs = implode('|',array_keys($directories));
 $arc = "${dstpath}/images.zip";
@@ -125,7 +130,7 @@ function remove_ext($str) {
 }
 
 function doexec($cmd) {
-	echo "DEBUG: Running {$cmd}\n";
+//	echo "DEBUG: Running {$cmd}\n";
 	exec($cmd);
 }
 function getvgui($name,$path='vgui/inventory') {
