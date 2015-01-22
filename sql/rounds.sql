@@ -14,3 +14,12 @@ CREATE TABLE IF NOT EXISTS `hlstats_Events_Rounds` (
   `message_string` varchar(255) DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+ALTER TABLE `hlstats_Events_Teamkills`
+  ADD `killerTeam` VARCHAR(32) NULL DEFAULT NULL AFTER `victimId`,
+  ADD `victimTeam` VARCHAR(32) NULL DEFAULT NULL AFTER `killerTeam`;
+
+ALTER TABLE `hlstats_Events_Frags`
+  ADD `killerTeam` VARCHAR(32) NULL DEFAULT NULL AFTER `victimId`,
+  ADD `victimTeam` VARCHAR(32) NULL DEFAULT NULL AFTER `killerTeam`;
+
