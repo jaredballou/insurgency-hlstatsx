@@ -135,6 +135,7 @@ For support and installation notes visit http://www.hlxcommunity.com
                 hlstats_Servers
             WHERE
                 game='$game'
+		AND sortorder != -1
             ORDER BY
                 sortorder, name, serverId
 	";
