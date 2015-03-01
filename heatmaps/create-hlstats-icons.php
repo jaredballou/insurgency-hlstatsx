@@ -84,24 +84,29 @@ while ($row = mysql_fetch_array($result)) {
 }
 
 //Create map images
-$mappath = "{$srcpath}/vgui/endroundlobby/maps";
-$mapfiles = glob("{$mappath}/*.*");
 $maps = array();
-foreach ($mapfiles as $map) {
-	$basename = remove_ext(basename($map));
-	$noext = remove_ext($map);
-	if (isset($maps[$basename]))
-		continue;
-	if (file_exists("{$noext}.png")) {
-		$maps[$basename] = "{$noext}.png";
-		continue;
+ParseMapDir("overviews");
+ParseMapDir("vgui/endroundlobby/maps");
+
+function ParseMapDir($mappath) {
+	global $maps,$srcpath;
+	$mapfiles = glob("{$srcpath}/{$mappath}/*.*");
+	foreach ($mapfiles as $map) {
+		$basename = remove_ext(basename($map));
+		$noext = remove_ext($map);
+		if (isset($maps[$basename]))
+			continue;
+		if (file_exists("{$noext}.png")) {
+			$maps[$basename] = "{$noext}.png";
+			continue;
+		}
+		$srcimg = getvgui($basename,$mappath);
+		if ($srcimg)
+			$maps[$basename] = $srcimg;
 	}
-	$srcimg = getvgui($basename,'vgui/endroundlobby/maps');
-	if ($srcimg)
-		$maps[$basename] = $srcimg;
 }
 
-foreach ($maps as $mapname => $mapimg) {	
+foreach ($maps as $mapname => $mapimg) {
 	echo "Processing {$mapname}\n";
 	$resize = "-gravity center -trim +repage -background none -resize {$directories['maps']['res']} -extent {$directories['maps']['res']}";
 	doexec("convert {$mapimg} {$resize} {$dstpath}/maps/{$mapname}.png");
