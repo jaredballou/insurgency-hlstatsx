@@ -589,6 +589,9 @@ For support and installation notes visit http://www.hlxcommunity.com
 				case 'zps':
 					$start_model = 'zps1';
 					break;
+				case 'insurgency':
+					$start_model = 'insurgency';
+					break;
 				case 'ges':
 					$start_model = $ges_models[array_rand($ges_models)];
 					break;
