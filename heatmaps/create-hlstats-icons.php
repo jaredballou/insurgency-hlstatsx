@@ -140,6 +140,7 @@ function doexec($cmd) {
 }
 function getvgui($name,$path='vgui/inventory') {
 	$rp = "{$GLOBALS['srcpath']}/{$path}/{$name}";
+//var_dump($rp);
 	if (file_exists("{$rp}.vmt")) {
 		$vmf = file_get_contents("{$rp}.vmt");
 		preg_match_all('/basetexture[" ]+([^"\s]*)/',$vmf,$matches);
