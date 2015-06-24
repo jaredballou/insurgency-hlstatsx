@@ -1113,7 +1113,6 @@ sub getRank
 sub updateTrackable
 {
 	my ($self) = @_;
-	
 	if ((&::isTrackableTeam($self->{team}) == 0) || (($::g_servers{$self->{server}}->{ignore_bots} == 1) && (($self->{is_bot} == 1) || ($self->{userid} <= 0)))) {
 		$self->{trackable} = 0;
 		return;

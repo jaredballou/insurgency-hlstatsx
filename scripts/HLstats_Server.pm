@@ -1393,7 +1393,8 @@ sub updatePlayerCount
 			if ($player->{trackable} == 1) {
 				$trackable++;
 			}
-			if ($player->{userid} > 0) {
+			#jballou: never count bots in player counts
+			if (($player->{userid} > 0) && (!$player->{is_bot})) {
 				$num++;
 			}
 		}

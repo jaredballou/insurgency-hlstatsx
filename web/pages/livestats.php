@@ -190,6 +190,7 @@ function printserverstats($server_id)
 		{
 			$teamname = $db->escape($thisteam['team']);
 			$teamdata[$teamno] = $thisteam;
+			#jballou: Updated query to not display bots
 			$pldata = $db->query("
 								SELECT
 									player_id, 
@@ -203,12 +204,14 @@ function printserverstats($server_id)
 									hits, 
 									connected, 
 									skill_change, 
-									cli_flag
+									cli_flag,
+									steam_id
 								FROM 
 									hlstats_Livestats 
 								WHERE 
 									server_id = $server_id 
 									AND team = '$teamname'
+									AND steam_id != 'BOT'
 								ORDER BY 
 									kills DESC
 				");
