@@ -38,11 +38,20 @@
 import os,sys
 
 # version 1.0 alpha contributed to hlstatsx community by *XYZ*SaYnt
+configfile = '../hlstats.conf'
+myvars = {}
+with open(configfile) as myfile:
+    for line in myfile:
+        li=line.strip()
+        if not li.startswith("#"):
+            name, var = li.partition(' "')[::2]
+            if not name == '':
+                myvars[name.strip()] = var.strip('"')
+DBHOST=myvars['DBHost']
+DBNAME=myvars['DBName']
+DBUSER=myvars['DBUsername']
+DBPASS=myvars['DBPassword']
 
-DBHOST="localhost"
-DBNAME="your_hlstats_db"
-DBUSER="your_sql_username"
-DBPASS="your_sql_password"
 
 
 def system(cmd):
@@ -69,13 +78,13 @@ def fetch_geodata():
    FILE = FIL + ".zip"
    system("rm *.csv > /dev/null")
    if not os.path.exists(FILE):
-      system("wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity_CSV/" + FILE)
-   system("unzip -o " + FILE)
+      system("wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity_CSV/GeoLiteCity-latest.zip")
+   system("unzip -o -j GeoLiteCity-latest.zip")
+   system("rm GeoLiteCity-latest.zip")
 
-   system("mv %s/GeoLiteCity-Blocks.csv geoLiteCity_Blocks.csv"%FIL)
-   system("mv %s/GeoLiteCity-Location.csv geoLiteCity_Location.csv.temp"%FIL)
-   system("rmdir " + FIL)
-   system("iconv -f ISO-8859-1 -t UTF-8 geoLiteCity_Location.csv.temp > geoLiteCity_Location.csv")
+   system("iconv -f ISO-8859-1 -t UTF-8 GeoLiteCity-Location.csv > geoLiteCity_Location.csv")
+#   system("mv GeoLiteCity-Location.csv geoLiteCity_Location.csv")
+   system("mv GeoLiteCity-Blocks.csv geoLiteCity_Blocks.csv")
 
    return
 
@@ -187,6 +196,7 @@ def main():
 
    # clean up.
    system("rm "+sqlname)
+   system("rm *.csv > /dev/null")
 
    print("DONE.")
 
