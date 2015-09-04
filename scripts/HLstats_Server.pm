@@ -1390,10 +1390,10 @@ sub updatePlayerCount
 	if ($self->{play_game} == L4D()) {
 		my $num = 0;
 		while (my($pl, $player) = each(%{$self->{srv_players}})) {
-			if ($player->{trackable} == 1) {
+			#jballou: never count bots in player counts
+			if (($player->{trackable} == 1) && (!$player->{is_bot})) {
 				$trackable++;
 			}
-			#jballou: never count bots in player counts
 			if (($player->{userid} > 0) && (!$player->{is_bot})) {
 				$num++;
 			}
@@ -1403,7 +1403,7 @@ sub updatePlayerCount
 	} else {
 		$self->{numplayers} = scalar keys %{$self->{srv_players}};
 		while (my($pl, $player) = each(%{$self->{srv_players}})) {
-			if ($player->{trackable} == 1) {
+			if (($player->{trackable} == 1) && (!$player->{is_bot})) {
 				$trackable++;
 			}
 		}
