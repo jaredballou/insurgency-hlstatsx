@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 //Connect to database
 require "config.inc.php";

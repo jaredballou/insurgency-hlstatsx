@@ -1,3 +1,0 @@
-[submodule "heatmaps/src/insurgency-data"]
-	path = heatmaps/src/insurgency-data
-	url = git@github.com:jaredballou/insurgency-data.git
