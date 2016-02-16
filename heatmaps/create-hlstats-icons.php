@@ -65,7 +65,7 @@ while ($row = mysql_fetch_array($result)) {
 	$shortname = explode('_',$row['code'],2);
 	$shortname = $shortname[1];
 
-	$caption = "-gravity south -stroke '#000C' -strokewidth 2 -annotate 0 '{$row['name']}' -stroke none -fill white -annotate 0 '{$row['name']}'";
+	$caption = "-gravity south -stroke '#000C' -strokewidth 2 -annotate 0 '{$row['name']}' -stroke none -fill '#aaaaaa' -annotate 0 '{$row['name']}'";
 
 	//Weapon icon
 	$resize = "-gravity center -trim +repage -background none -resize {$directories['weapons']['res']} -extent {$directories['weapons']['res']}";
