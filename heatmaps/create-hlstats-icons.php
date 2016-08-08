@@ -1,14 +1,25 @@
 #!/usr/bin/php
 <?php
 //Connect to database
+$debug = 0;
 require "config.inc.php";
 mysql_connect(DB_HOST,DB_USER,DB_PASS);
 mysql_select_db(DB_NAME);
 
 //Source for weapon images
-$srcpath = 'src/insurgency-data/materials';
+$game = "insurgency";
+
+$mod = "insurgency";
+$version = "2.2.7.3";
+
+$mod = "doi";
+$version = "2.4.5.5";
+
+$srcpath = "src/insurgency-data/mods/{$mod}/{$version}/materials";
+
 //Destination for processed results
-$dstpath = '../web/hlstatsimg/games/insurgency';
+$dstpath = "../web/hlstatsimg/games/{$game}";
+
 //TODO: Merge this all together
 //Array of directories and the size of the icon
 
@@ -46,7 +57,8 @@ $ribbons = array(
 //Global award background
 $gaward = 'gawards_nohand.png';
 //Get weapons from MySQL
-$result = mysql_query("SELECT * FROM hlstats_Weapons WHERE game='insurgency' ORDER BY code ASC");
+$mod = 'insurgency';
+$result = mysql_query("SELECT * FROM hlstats_Weapons WHERE game='{$mod}' ORDER BY code ASC");
 //Create directories if needed
 /*
 foreach ($directories as $dir => $data) {
@@ -60,10 +72,16 @@ foreach ($directories as $dir => $data) {
 while ($row = mysql_fetch_array($result)) {
 //	var_dump($row['code'],getvgui($row['code']));
 //exit;
-	$srcimg = getvgui($row['code'],'vgui/inventory');
 	echo "Processing {$row['code']} ({$row['name']})\n";
+	$srcimg = getvgui($row['code'],'vgui/inventory');
+	debugprint("srcimg = {$srcimg}");
+	if (!$srcimg) {
+		echo "ERROR: Cannot find source image for {$row['code']} ({$row['name']})\n";
+		continue;
+	}
 	$shortname = explode('_',$row['code'],2);
 	$shortname = $shortname[1];
+	debugprint("shortname = {$shortname}");
 
 	$caption = "-gravity south -stroke '#000C' -strokewidth 2 -annotate 0 '{$row['name']}' -stroke none -fill '#aaaaaa' -annotate 0 '{$row['name']}'";
 
@@ -136,20 +154,30 @@ function remove_ext($str) {
 }
 
 function doexec($cmd) {
-//	echo "DEBUG: Running {$cmd}\n";
+	debugprint("Running {$cmd}");
 	exec($cmd);
 }
+function debugprint($msg) {
+	if ($GLOBALS['debug']) {
+		echo "DEBUG: {$msg}\n";
+	}
+}
 function getvgui($name,$path='vgui/inventory') {
+	debugprint("name \"{$name}\" path \"{$path}\"");
 	$rp = "{$GLOBALS['srcpath']}/{$path}/{$name}";
+	debugprint("rp is \"{$rp}\"");
 //var_dump($rp);
 	if (file_exists("{$rp}.vmt")) {
 		$vmf = file_get_contents("{$rp}.vmt");
 		preg_match_all('/basetexture[" ]+([^"\s]*)/',$vmf,$matches);
 		$rp = "{$GLOBALS['srcpath']}/".$matches[1][0];
+		debugprint("vmt set rp to \"{$rp}\"");
 	}
 	if (file_exists("{$rp}.png")) {
+		debugprint("\"{$rp}\" exists");
 		return "{$rp}.png";
 	}
+	debugprint("\"{$rp}\" does not exist");
 	return NULL;
 }
 
