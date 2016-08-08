@@ -16,6 +16,6 @@ foreach ($mapinfo as $game => $gameconf) {
 		$heat->generate($game, $map, "kill");
 	}
 }
-
+//src/insurgency-data/mods/insurgency/2.2.7.3/resource/overviews/ministry_coop.txt
 show::Event("CREATE", "Heatmap creation done.", 1);
 ?>

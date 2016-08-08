@@ -165,8 +165,27 @@ class Heatmap {
 		show::Event("PATH", $path, 3);
 
 		// Does the source image exists? else there is no idea to spend resources on it.
-		if (!file_exists(dirname(__FILE__) . "/src/" . $mapinfo[$code][$map]['game'] . "/" . $map . ".png")) {
-			show::Event("FILE", dirname(__FILE__) . "/src/" . $mapinfo[$code][$map]['game'] . "/" . $map . ".png doesn't exists", 3);
+
+// /opt/hlstatsx-community-edition/heatmaps/src/insurgency/ministry_coop.png"
+// 
+		$src_txt = dirname(__FILE__) . "/src/insurgency-data/mods/insurgency/2.2.7.3/resource/overviews/{$map}.txt";
+		$src_path = dirname(__FILE__) . "/src/{$mapinfo[$code][$map]['game']}";
+		$src_img = "{$src_path}/{$map}.png";
+		if (file_exists($src_txt)) {
+			$vmf = file_get_contents("{$src_txt}");
+			preg_match_all('/material["\s]+([^"\s]*)/',$vmf,$matches);
+			$img = "{$src_path}/".basename($matches[1][0]).".png";
+			//echo "DEBUG: Testing for \"{$img}\"\n";
+			if (file_exists($img)) {
+				//echo "DEBUG: OK!\n";
+				$src_img = $img;
+			}
+	
+		}
+
+		//echo "DEBUG: src_img is \"{$src_img}\"\n";
+		if (!file_exists($src_img)) {
+			show::Event("FILE", "{$src_img} doesn't exists", 3);
 			return false;
 		}
 		// Check that the dir exists, else try to create it.
@@ -181,19 +200,20 @@ class Heatmap {
 			if ($handle = opendir(CACHE_DIR. "/$code")) {
 				while (false !== ($file = readdir($handle))) {
 					if ($file != "." && $file != ".." && preg_match(str_replace("\$","\\\$","/${map}_(\d+).png/i"), $file, $matches)) {
+
 						$cache_file = CACHE_DIR . "/$code/$file";
 						$oldtimestamp = $matches[1];
 
 						// unless it's over 30 days old cache file, then we delete it and go from 0 again.
 						if (floor((time() - $oldtimestamp) / 86400 > 30)) {
-							$obsolite_cache = true;
+							$obsolete_cache = true;
 							show::Event("CACHE", "Cache file is obsolite, " . floor((time() - $oldtimestamp) / 86400) . " days old. Generating from scratch", 1);
 						} else {
 							show::Event("CACHE", "Cache file is OK",1);
 						}
 
 						// If we called with --disable-cache we want to clean up and then regen from our start.
-						if ($disable_cache || isset($obsolite_cache)) {
+						if ($disable_cache || isset($obsolete_cache)) {
 							$disable_cache = true;
 							if (file_exists($cache_file)) {
 								unlink($cache_file);
@@ -223,11 +243,12 @@ class Heatmap {
 
 		$firstdata = time();
 
-		$img = imagecreatefrompng("./src/" . $mapinfo[$code][$map]['game'] . "/" . $map . ".png");
+		$img = imagecreatefrompng($src_img);
+//"./src/" . $mapinfo[$code][$map]['game'] . "/" . $map . ".png");
 		imagealphablending($img, true);
 		imagesavealpha($img, true);
 
-		if (isset($cache_file) && !$disable_cache) {
+		if (isset($cache_file) && file_exists($cache_file) && !$disable_cache) {
 			$overlay = imagecreatefrompng($cache_file);
 		} else {
 			$overlay = imagecreatetruecolor(imagesx($img), imagesy($img));
@@ -416,7 +437,6 @@ class Heatmap {
 				AND hef.eventTime >= FROM_UNIXTIME(' . $timescope . ')
 				LIMIT ' . KILL_LIMIT . '
 				';
-
 		Env::set('map_query', $map_query);
 		show::Event("SQL", $map_query, 3);
 	}
