@@ -537,10 +537,10 @@ sub track_server_load
 
 				my $act_players  = $self->{numplayers};
 				my $max_players  = $self->{maxplayers};
-				if ($max_players > 0) {
+				if ($act_players > 0) {
 					if ($act_players > $max_players)  {
 						$act_players = $max_players;
-					}
+					} #fix by narugo
 				}
 				&::execCached("flush_server_load",
 					"INSERT IGNORE INTO hlstats_server_load
