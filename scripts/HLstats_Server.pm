@@ -1386,8 +1386,8 @@ sub updatePlayerCount
 	}
 	
 	my $trackable = 0;
-
-	if ($self->{play_game} == L4D()) {
+# or 	if ($self->{play_game} == INSURGENCY()) {
+	if (($self->{play_game} == INSURGENCY()) || ($self->{play_game} == L4D())) {
 		my $num = 0;
 		while (my($pl, $player) = each(%{$self->{srv_players}})) {
 			#jballou: never count bots in player counts
