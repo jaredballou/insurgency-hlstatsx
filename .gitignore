@@ -1,9 +1,7 @@
 scripts/logs/hlstats*
 heatmaps/cache/*
-/web/hlstatsimg/games/*/heatmaps/
+web/hlstatsimg/games/*/heatmaps/
 scripts/*.pid
 web/hlstatsimg/progress/*
-<<<<<<< HEAD
-=======
 heatmaps/src/insurgency-data
->>>>>>> e89373b0719a2b6af36c3eb8810221a6282e68a2
+web/hlstatsimg/games/*/images.zip

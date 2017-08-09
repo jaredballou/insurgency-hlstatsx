@@ -1,27 +1,26 @@
 #!/usr/bin/php
 <?php
 //Connect to database
-$debug = 0;
+$debug = 1;
 require "config.inc.php";
 mysql_connect(DB_HOST,DB_USER,DB_PASS);
 mysql_select_db(DB_NAME);
 
-$mods = array("insurgency", "doi");
+$games = array("insurgency" => array("insurgency"), "doi" => array("doi","letskillbots"));
 
-foreach ($mods as $mod => $version) {
-	DoImages($mod,$version);
+foreach ($games as $game => $mods) {
+	foreach($mods as $mod) {
+		debugprint("loop: game is {$game} and mod is {$mod}");
+		DoImages($game,$mod);
+	}
 }
 
-function DoImages($mod="insurgency", $version="latest") {
-	global $mod, $version, $srcpath, $dstpath, $directories, $ribbons, $gaward;
-	if (is_numeric($mod)) {
-		$mod = $version;
-		$version = "latest";
-	}
-	//echo "mod is {$mod} and version is {$version}\n";
-	$srcpath = "src/insurgency-data/mods/{$mod}/{$version}/materials";
-	//Destination for processed results
-	$dstpath = "../web/hlstatsimg/games/{$mod}";
+function DoImages($game, $mod) {
+	global $srcpath, $dstpath, $directories, $ribbons, $gaward;
+
+	$srcpath = "src/insurgency-data/mods/{$mod}/latest/materials";
+	$dstpath = "../web/hlstatsimg/games/{$game}";
+	debugprint("DoImages: game:{$game} mod:{$mod} srcpath:{$srcpath} dstpath:{$dstpath}");
 
 	//TODO: Merge this all together
 	//Array of directories and the size of the icon
@@ -69,11 +68,7 @@ function DoImages($mod="insurgency", $version="latest") {
 		}
 	}
 
-//	DoWeaponImages($mod, $version, $srcpath, $dstpath);
-//function DoWeaponImages($mod, $version, $srcpath, $dstpath) {
-	//Get weapons from MySQL
-	$result = mysql_query("SELECT * FROM hlstats_Weapons WHERE game='{$mod}' ORDER BY code ASC");
-	//Create weapon images
+	$result = mysql_query("SELECT * FROM hlstats_Weapons WHERE game='{$game}' ORDER BY code ASC");
 	while ($row = mysql_fetch_array($result)) {
 		echo "Processing {$row['code']} ({$row['name']})\n";
 		$srcimg = getvgui($row['code'],'vgui/inventory');
@@ -104,8 +99,6 @@ function DoImages($mod="insurgency", $version="latest") {
 			doexec("convert {$ribimg} {$srcimg} {$resize} {$caption} -compose over -composite {$dstpath}/ribbons/{$prefix}{$shortname}.png");
 		}
 	}
-//function DoMapImages($mod, $version, $srcpath, $dstpath) {
-
 	//Create map images
 	$maps = array();
 	ParseMapDir("overviews");
@@ -148,6 +141,7 @@ function debugprint($msg) {
 		echo "DEBUG: {$msg}\n";
 	}
 }
+
 function getvgui($name,$path='vgui/inventory') {
 	debugprint("name \"{$name}\" path \"{$path}\"");
 	$rp = "{$GLOBALS['srcpath']}/{$path}/{$name}";
@@ -165,6 +159,7 @@ function getvgui($name,$path='vgui/inventory') {
 	debugprint("\"{$rp}\" does not exist");
 	return NULL;
 }
+
 function ParseMapDir($mappath) {
 	global $maps,$srcpath;
 	$mapfiles = glob("{$srcpath}/{$mappath}/*.*");
