@@ -537,10 +537,10 @@ sub track_server_load
 
 				my $act_players  = $self->{numplayers};
 				my $max_players  = $self->{maxplayers};
-				if ($max_players > 0) {
+				if ($act_players > 0) {
 					if ($act_players > $max_players)  {
 						$act_players = $max_players;
-					}
+					} #fix by narugo
 				}
 				&::execCached("flush_server_load",
 					"INSERT IGNORE INTO hlstats_server_load
@@ -1386,8 +1386,8 @@ sub updatePlayerCount
 	}
 	
 	my $trackable = 0;
-
-	if ($self->{play_game} == L4D()) {
+# or 	if ($self->{play_game} == INSURGENCY()) {
+	if (($self->{play_game} == INSURGENCY()) || ($self->{play_game} == L4D())) {
 		my $num = 0;
 		while (my($pl, $player) = each(%{$self->{srv_players}})) {
 			#jballou: never count bots in player counts
